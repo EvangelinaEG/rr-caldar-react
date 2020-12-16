@@ -17,7 +17,7 @@ class ListBoilerTypes extends Component{
                 </thead>
                 <tbody>
                     {this.props.listboilertypes.map((boilertype)=>(
-                        <BoilerTypeId key={boilertype.id} boilertype={boilertype} />
+                        <BoilerTypeId key={boilertype.id} boilertype={boilertype} editBoilerType={this.props.editBoilerType} delBoilerType={this.props.delBoilerType}/>
                     ))}
                 </tbody>
             </Table>

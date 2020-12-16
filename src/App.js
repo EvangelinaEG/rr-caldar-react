@@ -25,6 +25,36 @@ class App extends React.Component{
     modalInsert: false,
   }
 
+  editBoilerType = id => {
+    const bt = {...this.state.data.filter(boilertype => boilertype.id === id)}
+    if(this.state.form.id){
+      this.setState({
+        form:{
+          id: bt.id,
+          skillId: bt.skillId,
+          description: bt.description,
+          stock: bt.stock
+        },
+      modalInsert: false
+      });
+    }
+  };
+
+  delBoilerType = id =>{
+    this.setState({
+      data: {...this.state.data.filter(boilertype => boilertype.id !== id)}
+    })
+  }
+  addBoilerType = (id, skillId, description, stock) =>{
+    const newBoilerType = {
+      id: this.state.data.length+1,
+      skillId,
+      description,
+      stock
+    };
+
+    this.setState({ data: [...this.state.data, newBoilerType], modalInsert:false });
+  }
 
   showModal=()=>{
     this.setState({modalInsert: !this.state.modalInsert});
@@ -40,20 +70,20 @@ class App extends React.Component{
       <div>
       <Container className="container">
         <Button color="success" onClick={this.showModal} >New Boiler Type</Button>
-        <ListBoilerTypes key="" listboilertypes={this.state.data}/>
+        <ListBoilerTypes key="" listboilertypes={this.state.data} editBoilerType={this.editBoilerType} delBoilerType={this.delBoilerType}/>
       </Container>
       </div>
       <Modal  isOpen={this.state.modalInsert}>
         <ModalHeader >
+        <h3>{this.state.form.id ? "Edit boilerType" : "Add new boilerType"}</h3>
         </ModalHeader>
         <ModalBody>
-        <AddBoilerType form={this.state.form} data={this.state.data} />
+        <AddBoilerType form={this.state.form} data={this.state.data} addBoilerType={this.addBoilerType}/>
         </ModalBody>
         <ModalFooter>
           <Button variant="secondary" onClick={this.hideModal}>
             Close
           </Button>
-      
         </ModalFooter>
       </Modal>
       </>
