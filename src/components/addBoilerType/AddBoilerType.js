@@ -2,47 +2,49 @@ import React, { Component } from "react";
 import "./AddBoilerType.css";
 //import { Timestamp } from "mongodb";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {FormGroup, Form, Input} from 'reactstrap';
+import {FormGroup, Form, Input, Button} from 'reactstrap';
+
+
 class AddBoilerType extends Component{
   state = {
     id: "",
-    skillId: "",
+    skillsId: "",
     description: "",
     stock: ""
   };
-  componentDidUpdate(prevProps, prevState) {
+  componentDidMount() {
     if (this.props.form.id) {
       this.handleEdit(this.props.form);
     }
   }
-  handleEdit = (boilertype) => {
+
+  handleEdit = (boilerTypes) => {
     this.setState({
-      id: boilertype.id,
-      skillId: boilertype.skillId,
-      description: boilertype.description,
-      stock: boilertype.stock,
+      id: boilerTypes.id,
+      skillsId: boilerTypes.skillsId,
+      description: boilerTypes.description,
+      stock: boilerTypes.stock,
     });
   };
   onSubmit = (e) => {
     e.preventDefault();
-    if (this.state.id) {
+    if (this.props.form.id) {
       this.props.updateBoilerType(
         this.state.id,
-        this.state.skillId,
+        this.state.skillsId,
         this.state.description,
         this.state.stock,
       );
     } else {
       this.props.addBoilerType(
-        this.state.id,
-        this.state.skillId,
+        this.state.skillsId,
         this.state.description,
         this.state.stock
       );
     }
     this.setState({
       id: "",
-      skillId: "",
+      skillsId: "",
       description: "",
       stock: "",
     });
@@ -54,19 +56,19 @@ class AddBoilerType extends Component{
     return (
         <Form  style={{ display: 'flex' }} onSubmit={this.onSubmit}>
             <FormGroup>
-              <Input type="text" className="form-control" name="id" id="id" placeholder="Id" readOnly value={(this.state.id)? this.state.id : this.props.data.length+1} />
+              <Input type="text" name="id"  placeholder="Id" readOnly value={this.state.id? this.state.id : this.props.data.length+1} />
             </FormGroup>
             <FormGroup>
-              <Input type="text" className="form-control" name="skillId" id="skillId" value={this.state.skillId} placeholder="skillId" defaulvalue="" onChange={this.handleChange} />
+              <Input type="text" name="skillsId" value={this.state.skillsId? this.state.skillsId : ''} placeholder="skillsId"  onChange={this.handleChange} />
             </FormGroup>
             <FormGroup>
-              <Input type="text" className="form-control" name="description" id="description" value={this.state.description} placeholder="Description" defaulvalue="" onChange={this.handleChange} />
+              <Input type="text"  name="description" value={this.state.description? this.state.description : ''} defaultvalue="" placeholder="Description"  onChange={this.handleChange} />
             </FormGroup>
             <FormGroup>
-              <Input type="text" className="form-control" name="stock" id="description" value={this.state.stock} placeholder="stock" defaulvalue="" onChange={this.handleChange}/>
+              <Input type="number"  name="stock"  value={this.state.stock? this.state.stock : ''} placeholder="stock"  onChange={this.handleChange}/>
             </FormGroup>
             <FormGroup>
-              <Input type="submit" color="success" value="Add" className="btn"/>
+              <Button type="submit" color="success"  className="btn">{(this.props.form.id)? "Save" : "Add"}</Button>
             </FormGroup>
         </Form>
     )
