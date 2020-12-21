@@ -13,7 +13,7 @@ class ListBoilerTypes extends Component{
                     <th>skillsId</th>
                     <th>description</th>
                     <th>Stock</th>
-                    <th>acciones</th>
+                    <th>accions</th>
                     </tr>
                 </thead>
                 <tbody>
